@@ -33,7 +33,7 @@
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
       <!-- Navbar -->
-       <?php include('../component/navbar.php') ?>
+       <?php include('../component/navbar-index.php') ?>
       <!-- sidebar -->
        <?php include('../component/sidebar.php') ?>
 
