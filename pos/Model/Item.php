@@ -1,8 +1,9 @@
 <?php
+require_once __DIR__ . '/Model.php';
 
-class Stores extends Model
+class Item extends Model
 {
-    protected $table = 'stores';
+    protected $table = 'items';
 
     public function create($datas)
     {
@@ -10,7 +11,7 @@ class Stores extends Model
     }
     public function all()
     {
-       return parent::all_data($this->table);
+        parent::all_data($this->table);
     }
     public function find($id)
     {

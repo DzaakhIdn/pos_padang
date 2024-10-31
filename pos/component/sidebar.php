@@ -7,7 +7,7 @@
             <a href="index.html">St</a>
         </div>
         <ul class="sidebar-menu">
-            <li class=active><a class="nav-link" href="../views/index.php" class="fas fa-fire"></i><span>Dashbord</span></a></li>
+            <li><a class="nav-link" href="index.php"><i class="fas fa-fire"></i><span>Dashboard</span></a></li>
             <li class="menu-header">Menu</li>
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-folder-minus"></i> <span>Kategori</span></a>

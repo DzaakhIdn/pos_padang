@@ -1,9 +1,28 @@
+<?php
+require_once __DIR__ . '/../DB/Connections.php';
+require_once __DIR__ . '/../Model/init.php';
+
+$kategori = new Category();
+
+$limit = 3; // Data per page
+$pageActive = isset($_GET["page"]) ? $_GET["page"] : 1; // Halaman yang aktif
+$lenght = count($kategori->all()); // Total data
+$countPage = ceil($lenght / $limit);
+
+$key = $_GET['keyword'];
+
+$prev = ($pageActive > 1) ? $pageActive - 1 : 1;
+$next = ($pageActive < $countPage) ? $pageActive + 1 : $countPage;
+
+$categories = $kategori->paginate($limit, 0);
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Blank Page &mdash; Stisla</title>
+  <title>Home Category</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="../assets/modules/bootstrap/css/bootstrap.min.css">
@@ -14,38 +33,114 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/components.css">
-<!-- Start GA -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Start GA -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'UA-94034622-3');
-</script>
-<!-- /END GA --></head>
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-94034622-3');
+  </script>
+  <!-- /END GA -->
+</head>
 
 <body>
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
       <!-- Navbar -->
-       <?php include('../component/navbar.php') ?>
+      <?php include('../component/navbar.php') ?>
       <!-- SideBar -->
-       <?php include('../component/sidebar.php') ?>
+      <?php include('../component/sidebar.php') ?>
 
       <!-- Main Content -->
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Blank Page</h1>
+            <h1>Home Kategori</h1>
           </div>
 
           <div class="section-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Advanced Table</h4>
+                    <div class="card-header-form">
+                      <form>
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Search" id="keyword" name="keyword">
+                          <div class="input-group-btn">
+                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card-body p-0">
+                    <div id="bungkus" class="table-responsive">
+                      <table class="table table-striped">
+                        <tr>
+                          <th>
+                            <div class="custom-checkbox custom-control">
+                              <input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" class="custom-control-input" id="checkbox-all">
+                              <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                            </div>
+                          </th>
+                          <th>Nama Kategori</th>
+                          <th>Action</th>
+                        </tr>
+                        <?php
+                        foreach ($categories as $category) : ?>
+                          <tr>
+                            <td class="">
+                              <div class="custom-checkbox custom-control">
+                                <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1">
+                                <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
+                              </div>
+                            </td>
+                            <td> <?= $category['name'] ?></td>
+                            <td>
+                              <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                              <a href="#" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                            </td>
+                          </tr>
+                        <?php
+                        endforeach;
+                        ?>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="card-body">
+                    <nav aria-label="...">
+                      <ul class="pagination">
+                        <li class="page-item disabled">
+                          <a class="page-link" href="?page=<?php $prev; ?>" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1<span class="sr-only">(current)</span></a></li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                          <a class="page-link" href="?page=<?php $next; ?>">Next</a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>
       <!-- Footer -->
-       <?php include('../component/footer.php') ?>
+      <?php include('../component/footer.php') ?>
     </div>
   </div>
 
@@ -57,13 +152,34 @@
   <script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
   <script src="../assets/modules/moment.min.js"></script>
   <script src="../assets/js/stisla.js"></script>
-  
+
   <!-- JS Libraies -->
 
   <!-- Page Specific JS File -->
-  
+
   <!-- Template JS File -->
   <script src="../assets/js/scripts.js"></script>
   <script src="../assets/js/custom.js"></script>
+
+  <script type="text/javascript">
+    //ar keyword = $("#keyword")
+    // var container = $("#bungkus")
+
+    // keyword.on("keyup", () => {
+    //   //console.log(keyword.val())
+    //   container.load("../component/search-category.php?keyword=" + keyword.val())
+    // })/ var keyword = $("#keyword")
+    // var container = $("#bungkus")
+
+    // keyword.on("keyup", () => {
+    //   //console.log(keyword.val())
+    //   container.load("../component/search-category.php?keyword=" + keyword.val())
+    // })
+
+    $("#keyword").on("keyup", function() {
+      $("#bungkus").load("../component/search-category.php?keyword=" + $("#keyword").val())
+    })
+  </script>
 </body>
+
 </html>

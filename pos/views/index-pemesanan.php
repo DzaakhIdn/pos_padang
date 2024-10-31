@@ -37,10 +37,70 @@
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Blank Page</h1>
+            <h1>Home Pemesanan</h1>
           </div>
 
           <div class="section-body">
+          <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Advanced Table</h4>
+                    <div class="card-header-form">
+                      <form>
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Search">
+                          <div class="input-group-btn">
+                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                        <tr>
+                          <th>
+                            <div class="custom-checkbox custom-control">
+                              <input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" class="custom-control-input" id="checkbox-all">
+                              <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                            </div>
+                          </th>
+                          <th>Name</th>
+                          <th>Note</th>
+                          <th>Status</th>
+                          <th>Amount</th>
+                          <th>User</th>
+                          <th>Due Date</th>
+                          <th>Action</th>
+                        </tr>
+                        <tr>
+                          <td class="p-0 text-center">
+                            <div class="custom-checkbox custom-control">
+                              <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1">
+                              <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
+                            </div>
+                          </td>
+                          <td>Create a mobile app</td>
+                          <td>Halo ini adalah note</td>
+                          <td><a href="#" class="btn btn-success">paid</a></td>
+                          <td>20,000</td>
+                          <td>Bambang</td>
+                          <td> <?= date("F j, Y") ?></td>
+                          <td>
+                            <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                            <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            <a href="#" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           </div>
         </section>
       </div>

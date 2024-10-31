@@ -1,8 +1,9 @@
 <?php
+require_once __DIR__ . '/Model.php';
 
-class Fruits extends Model
+class User extends Model
 {
-    protected $table = 'fruits';
+    protected $table = 'user';
 
     public function create($datas)
     {

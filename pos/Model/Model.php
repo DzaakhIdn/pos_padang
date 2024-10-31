@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Interface/Interface.php';
+require_once __DIR__ . '/../DB/Connections.php';
 
 abstract class Model extends Connection implements ModelInterface{
 
@@ -73,5 +74,19 @@ abstract class Model extends Connection implements ModelInterface{
         $query = "DELETE FROM $table WHERE id = $id";
         $result = mysqli_query($this->db, $query);
         return $result;
+    }
+
+    public function search_all($keyword, $table){
+        $query = "SELECT * FROM $table $keyword";
+        $result = mysqli_query($this->db, $query);
+
+        return $this->convert_data($result);
+    }
+
+    public function paginate_data($limit, $start, $table){
+        $query = "SELECT * FROM $table LIMIT $limit, $start";
+        $result = mysqli_query($this->db, $query);
+
+        return $this->convert_data($result);
     }
 }
