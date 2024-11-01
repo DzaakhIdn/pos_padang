@@ -23,5 +23,5 @@ Proyek ini sangat cocok untuk pengembang yang ingin mempelajari dasar-dasar peng
 ## 📦 Instalasi dan Penggunaan
 
 ### 1. Clone Repository
-HTTPS ```bash
+```bash
 https://github.com/DzaakhIdn/pos_padang.git
