@@ -1,3 +1,33 @@
+<?php
+require_once __DIR__ . '/../Model/init.php';
+
+$categories = new Category;
+
+if (isset($_POST["submit"])) {
+  $category = [
+    "name" => $_POST["name"]
+  ];
+  if (strlen($_POST["name"]) > 225) {
+?>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+      Swal.fire({
+        title: 'Coba SweetAlert',
+        text: 'Jika ini muncul, SweetAlert berfungsi.',
+        icon: 'info'
+      });
+    </script>
+
+
+<?php
+    die;
+  }
+  $result = $categories->create($category);
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +79,7 @@
             <div class="row">
               <div class="col-12 col-md-6 col-lg-6">
                 <div class="card">
-                <img src="../assets/img/vector/Fastfood.png" alt="">
+                  <img src="../assets/img/vector/Fastfood.png" alt="">
                 </div>
               </div>
               <div class="col-12 col-md-6 col-lg-6">
@@ -57,15 +87,15 @@
                   <div class="card-header">
                     <h4>Input Text</h4>
                   </div>
-                  <div class="card-body">
+                  <form action="" method="post" class="card-body">
                     <div class="form-group">
                       <label>Masukan Kategori Baru</label>
-                      <input type="text" class="form-control">
+                      <input type="text" name="name" class="form-control">
                     </div>
                     <div class="d-flex justify-content-end">
-                      <button class="btn btn-primary">Tambahkan</button>
+                      <button class="btn btn-primary" type="submit" name="submit">Tambahkan</button>
                     </div>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -89,10 +119,14 @@
   <!-- JS Libraies -->
 
   <!-- Page Specific JS File -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Template JS File -->
   <script src="../assets/js/scripts.js"></script>
   <script src="../assets/js/custom.js"></script>
+  <script type="text/javascript">
+
+  </script>
 </body>
 
 </html>

@@ -5,16 +5,19 @@ require_once __DIR__ . '/../Model/init.php';
 $kategori = new Category();
 
 $limit = 3; // Data per page
-$pageActive = isset($_GET["page"]) ? $_GET["page"] : 1; // Halaman yang aktif
-$lenght = count($kategori->all()); // Total data
-$countPage = ceil($lenght / $limit);
+$pageActive = isset($_GET["page"]) ? (int)$_GET["page"] : 1; // Halaman yang aktif
+$length = count($kategori->all()); // Total data
+$countPage = ceil($length / $limit);
 
-$key = $_GET['keyword'];
+$key = isset($_GET['keyword']) ? $_GET['keyword'] : '';
+$offset = ($pageActive - 1) * $limit;
 
 $prev = ($pageActive > 1) ? $pageActive - 1 : 1;
 $next = ($pageActive < $countPage) ? $pageActive + 1 : $countPage;
 
-$categories = $kategori->paginate($limit, 0);
+// Query dengan pagination
+$categories = $kategori->paginate($offset, $limit);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,30 +36,14 @@ $categories = $kategori->paginate($limit, 0);
   <!-- Template CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/components.css">
-  <!-- Start GA -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-94034622-3');
-  </script>
-  <!-- /END GA -->
 </head>
 
 <body>
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
-      <!-- Navbar -->
       <?php include('../component/navbar.php') ?>
-      <!-- SideBar -->
       <?php include('../component/sidebar.php') ?>
 
-      <!-- Main Content -->
       <div class="main-content">
         <section class="section">
           <div class="section-header">
@@ -70,11 +57,11 @@ $categories = $kategori->paginate($limit, 0);
                   <div class="card-header">
                     <h4>Advanced Table</h4>
                     <div class="card-header-form">
-                      <form>
+                      <form method="GET" action="">
                         <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search" id="keyword" name="keyword">
+                          <input type="text" class="form-control" placeholder="Search" id="keyword" name="keyword" value="<?= $key ?>">
                           <div class="input-group-btn">
-                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                           </div>
                         </div>
                       </form>
@@ -84,54 +71,40 @@ $categories = $kategori->paginate($limit, 0);
                     <div id="bungkus" class="table-responsive">
                       <table class="table table-striped">
                         <tr>
-                          <th>
-                            <div class="custom-checkbox custom-control">
-                              <input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" class="custom-control-input" id="checkbox-all">
-                              <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
-                            </div>
-                          </th>
+                          <th>No</th>
                           <th>Nama Kategori</th>
                           <th>Action</th>
                         </tr>
-                        <?php
-                        foreach ($categories as $category) : ?>
+                        <?php foreach ($categories as $category) : ?>
                           <tr>
-                            <td class="">
-                              <div class="custom-checkbox custom-control">
-                                <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1">
-                                <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
-                              </div>
-                            </td>
-                            <td> <?= $category['name'] ?></td>
+                            <td>1</td>
+                            <td> <?= htmlspecialchars($category['name']) ?></td>
                             <td>
                               <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>
                               <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                               <a href="#" class="btn btn-success"><i class="fas fa-edit"></i></a>
                             </td>
                           </tr>
-                        <?php
-                        endforeach;
-                        ?>
+                        <?php endforeach; ?>
                       </table>
+                      <div class="card-body d-flex justify-content-center">
+                        <nav aria-label="Page navigation">
+                          <ul class="pagination">
+                            <li class="page-item <?= $pageActive == 1 ? 'disabled' : '' ?>">
+                              <a class="page-link" href="?page=<?= $prev ?>&keyword=<?= $key ?>">Previous</a>
+                            </li>
+                            <?php for ($i = 1; $i <= $countPage; $i++) : ?>
+                              <li class="page-item <?= $pageActive == $i ? 'active' : '' ?>">
+                                <a class="page-link" href="?page=<?= $i ?>&keyword=<?= $key ?>"><?= $i ?></a>
+                              </li>
+                            <?php endfor; ?>
+                            <li class="page-item <?= $pageActive == $countPage ? 'disabled' : '' ?>">
+                              <a class="page-link" href="?page=<?= $next ?>&keyword=<?= $key ?>">Next</a>
+                            </li>
+                          </ul>
+                        </nav>
+                      </div>
                     </div>
-                  </div>
-
-                  <div class="card-body">
-                    <nav aria-label="...">
-                      <ul class="pagination">
-                        <li class="page-item disabled">
-                          <a class="page-link" href="?page=<?php $prev; ?>" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1<span class="sr-only">(current)</span></a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="?page=<?php $next; ?>">Next</a>
-                        </li>
-                      </ul>
-                    </nav>
                   </div>
                 </div>
               </div>
@@ -139,45 +112,26 @@ $categories = $kategori->paginate($limit, 0);
           </div>
         </section>
       </div>
-      <!-- Footer -->
       <?php include('../component/footer.php') ?>
     </div>
   </div>
 
-  <!-- General JS Scripts -->
   <script src="../assets/modules/jquery.min.js"></script>
   <script src="../assets/modules/popper.js"></script>
-  <script src="../assets/modules/tooltip.js"></script>
   <script src="../assets/modules/bootstrap/js/bootstrap.min.js"></script>
   <script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
   <script src="../assets/modules/moment.min.js"></script>
   <script src="../assets/js/stisla.js"></script>
-
-  <!-- JS Libraies -->
-
-  <!-- Page Specific JS File -->
-
-  <!-- Template JS File -->
   <script src="../assets/js/scripts.js"></script>
   <script src="../assets/js/custom.js"></script>
 
   <script type="text/javascript">
-    //ar keyword = $("#keyword")
-    // var container = $("#bungkus")
+    var keyword = $("#keyword")
+    var container = $("#bungkus")
 
-    // keyword.on("keyup", () => {
-    //   //console.log(keyword.val())
-    //   container.load("../component/search-category.php?keyword=" + keyword.val())
-    // })/ var keyword = $("#keyword")
-    // var container = $("#bungkus")
-
-    // keyword.on("keyup", () => {
-    //   //console.log(keyword.val())
-    //   container.load("../component/search-category.php?keyword=" + keyword.val())
-    // })
-
-    $("#keyword").on("keyup", function() {
-      $("#bungkus").load("../component/search-category.php?keyword=" + $("#keyword").val())
+    keyword.on("keyup", () => {
+      //console.log(keyword.val())
+      container.load("../search/search-category.php?keyword=" + keyword.val())
     })
   </script>
 </body>
