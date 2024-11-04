@@ -5,6 +5,7 @@ class Category extends Model
 {
     protected $table = 'categories';
 
+   
     public function create($datas)
     {
         return parent::create_data($datas, $this->table);

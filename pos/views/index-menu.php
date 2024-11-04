@@ -1,10 +1,31 @@
+<?php
+require_once __DIR__ . '/../DB/Connections.php';
+require_once __DIR__ . '/../Model/init.php';
+
+$menu = new Item();
+
+$limit = 3; // Data per page
+$pageActive = isset($_GET["page"]) ? (int)$_GET["page"] : 1; // Halaman yang aktif
+$length = count($menu->all()); // Total data
+$countPage = ceil($length / $limit);
+
+$key = isset($_GET['keyword']) ? $_GET['keyword'] : '';
+$offset = ($pageActive - 1) * $limit;
+
+$prev = ($pageActive > 1) ? $pageActive - 1 : 1;
+$next = ($pageActive < $countPage) ? $pageActive + 1 : $countPage;
+
+// Query dengan pagination
+$menus = $menu->paginate($offset, $limit);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Blank Page &mdash; Stisla</title>
+  <title>Menu Page &mdash; POS Padang</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="../assets/modules/bootstrap/css/bootstrap.min.css">
@@ -64,40 +85,65 @@
                   </div>
                   <div class="card-body p-0">
                     <div class="table-responsive">
-                      <table class="table table-striped">
-                        <tr>
-                          <th>
-                            <div class="custom-checkbox custom-control">
-                              <input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" class="custom-control-input" id="checkbox-all">
-                              <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
-                            </div>
-                          </th>
-                          <th>Name</th>
-                          <th>Attachment</th>
-                          <th>Price</th>
-                          <th>Category</th>
-                          <th>Due Date</th>
-                          <th>Action</th>
-                        </tr>
-                        <tr>
-                          <td class="">
-                            <div class="custom-checkbox custom-control">
-                              <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1">
-                              <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
-                            </div>
-                          </td>
-                          <td>Create a mobile app</td>
-                          <td>Attachment</td>
-                          <td>20.000</td>
-                          <td>Makanan</td>
-                          <td> <?= date('Y') ?></td>
-                          <td>
-                            <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                            <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                            <a href="#" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                          </td>
-                        </tr>
-                      </table>
+                      <?php if (empty($menus)) : ?>
+                        <div class="d-flex justify-content-center m-5">
+                          <div class="inpo btn btn-danger ">Gak Ada Data 🥲</div>
+                        </div>
+                      <?php else: ?>
+                        <table class="table table-striped">
+                          <tr>
+                            <th>
+                              <div class="custom-checkbox custom-control">
+                                <input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad" class="custom-control-input" id="checkbox-all">
+                                <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                              </div>
+                            </th>
+                            <th>Name</th>
+                            <th>Attachment</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Due Date</th>
+                            <th>Action</th>
+                          </tr>
+                          <?php foreach ($menus as $m) : ?>
+                            <tr>
+                              <td class="">
+                                <div class="custom-checkbox custom-control">
+                                  <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1">
+                                  <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
+                                </div>
+                              </td>
+                              <td><?= $m["name"] ?></td>
+                              <td>Attachment</td>
+                              <td>20.000</td>
+                              <td>Makanan</td>
+                              <td> <?= date('Y') ?></td>
+                              <td>
+                                <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                <a href="#" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                              </td>
+                            </tr>
+                          <?php endforeach; ?>
+                        </table>
+                        <div class="card-body d-flex justify-content-center">
+                          <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                              <li class="page-item <?= $pageActive == 1 ? 'disabled' : '' ?>">
+                                <a class="page-link" href="?page=<?= $prev ?>&keyword=<?= $key ?>">Previous</a>
+                              </li>
+                              <?php for ($i = 1; $i <= $countPage; $i++) : ?>
+                                <li class="page-item <?= $pageActive == $i ? 'active' : '' ?>">
+                                  <a class="page-link" href="?page=<?= $i ?>&keyword=<?= $key ?>"><?= $i ?></a>
+                                </li>
+                              <?php endfor; ?>
+                              <li class="page-item <?= $pageActive == $countPage ? 'disabled' : '' ?>">
+                                <a class="page-link" href="?page=<?= $next ?>&keyword=<?= $key ?>">Next</a>
+                              </li>
+                            </ul>
+                          </nav>
+                        </div>
+                      <?php endif; ?>
                     </div>
                   </div>
                 </div>

@@ -1,3 +1,22 @@
+<?php
+require_once __DIR__ . '/../DB/Connections.php';
+require_once __DIR__ . '/../Model/init.php';
+
+$categori = new Category();
+$menu = new Item();
+
+$categories = $categori->all();
+
+if(isset($_POST["submit"])){
+  $datas = [
+    "post" => $_POST,
+    "files" => $_FILES
+  ];
+
+  $result = $menu->create($datas);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,40 +75,37 @@
                   <div class="card-header">
                     <h4>Tambahkan Menu Baru</h4>
                   </div>
-                  <div class="card-body">
+                  <form action="" method="post" enctype="multipart/form-data" class="card-body">
                     <div class="form-group">
-                      <label>Nama Menu</label>
-                      <input type="text" class="form-control">
+                      <label for="name">Nama Menu</label>
+                      <input type="text" name="name" id="name" class="form-control">
                     </div>
                     <div class="form-group">
-                      <label class="form-control-label">Attachment</label>
+                      <label class="form-control-label" for="attachment">Attachment</label>
                       <div class="">
                         <div class="custom-file">
-                          <input type="file" name="site_favicon" class="custom-file-input" id="site-favicon">
+                          <input type="file" name="attachment" class="custom-file-input" id="attachment">
                           <label class="custom-file-label">Choose File</label>
                         </div>
                         <div class="form-text text-muted">The image must have a maximum size of 1MB</div>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label>Categories</label>
-                      <select class="form-control selectric">
-                        <option>Option 1</option>
-                        <option>Option 2</option>
-                        <option>Option 3</option>
-                        <option>Option 4</option>
-                        <option>Option 5</option>
-                        <option>Option 6</option>
+                      <label for="category_id">Categories</label>
+                      <select class="form-control selectric" name="category_id" id="category_id">
+                      <?php foreach ($categories as $c) : ?>
+                        <option value="<?= $c["id"] ?>"><?= $c["name"] ?></option>
+                      <?php endforeach; ?>
                       </select>
                     </div>
                     <div class="form-group">
-                      <label>Harga</label>
-                      <input type="number" class="form-control">
+                      <label for="price">Harga</label>
+                      <input type="number" name="price" id="price" class="form-control">
                     </div>
                     <div class="d-flex justify-content-end">
-                      <button class="btn btn-primary">Tambahkan</button>
+                      <button class="btn btn-primary" name="submit" type="submit">Tambahkan</button>
                     </div>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>
