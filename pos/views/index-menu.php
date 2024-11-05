@@ -76,7 +76,7 @@ $menus = $menu->paginate($offset, $limit);
                     <div class="card-header-form">
                       <form>
                         <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search">
+                          <input type="text" id="keyword" class="form-control" placeholder="Search">
                           <div class="input-group-btn">
                             <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                           </div>
@@ -85,7 +85,7 @@ $menus = $menu->paginate($offset, $limit);
                     </div>
                   </div>
                   <div class="card-body p-0">
-                    <div class="table-responsive">
+                    <div id="bungkus" class="table-responsive">
                       <?php if (empty($menus)) : ?>
                         <div class="d-flex justify-content-center m-5">
                           <div class="pesan">
@@ -178,6 +178,15 @@ $menus = $menu->paginate($offset, $limit);
   <!-- Template JS File -->
   <script src="../assets/js/scripts.js"></script>
   <script src="../assets/js/custom.js"></script>
+  <script type="text/javascript">
+    var keyword = $("#keyword")
+    var container = $("#bungkus")
+
+    keyword.on("keyup", () => {
+      //console.log(keyword.val())
+      container.load("../search/search-menu.php?keyword=" + keyword.val())
+    })
+  </script>
 </body>
 
 </html>
