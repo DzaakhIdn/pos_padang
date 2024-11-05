@@ -69,41 +69,50 @@ $categories = $kategori->paginate($offset, $limit);
                   </div>
                   <div class="card-body p-0">
                     <div id="bungkus" class="table-responsive">
-                      <table class="table table-striped">
-                        <tr>
-                          <th>No</th>
-                          <th>Nama Kategori</th>
-                          <th>Action</th>
-                        </tr>
-                        <?php foreach ($categories as $category) : ?>
+                      <?php if (empty($categories)) : ?>
+                        <div class="d-flex justify-content-center m-5">
+                          <div class="pesan">
+                            <img src="../assets/img/icon/no-data.gif" alt="" width="100">
+                            <p>Tidak Ada Data</p>
+                          </div>
+                        </div>
+                      <?php else : ?>
+                        <table class="table table-striped">
                           <tr>
-                            <td>1</td>
-                            <td> <?= htmlspecialchars($category['name']) ?></td>
-                            <td>
-                              <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                              <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                              <a href="#" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                            </td>
+                            <th>No</th>
+                            <th>Nama Kategori</th>
+                            <th>Action</th>
                           </tr>
-                        <?php endforeach; ?>
-                      </table>
-                      <div class="card-body d-flex justify-content-center">
-                        <nav aria-label="Page navigation">
-                          <ul class="pagination">
-                            <li class="page-item <?= $pageActive == 1 ? 'disabled' : '' ?>">
-                              <a class="page-link" href="?page=<?= $prev ?>&keyword=<?= $key ?>">Previous</a>
-                            </li>
-                            <?php for ($i = 1; $i <= $countPage; $i++) : ?>
-                              <li class="page-item <?= $pageActive == $i ? 'active' : '' ?>">
-                                <a class="page-link" href="?page=<?= $i ?>&keyword=<?= $key ?>"><?= $i ?></a>
+                          <?php foreach ($categories as $category) : ?>
+                            <tr>
+                              <td>1</td>
+                              <td> <?= htmlspecialchars($category['name']) ?></td>
+                              <td>
+                                <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                <a href="#" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                              </td>
+                            </tr>
+                          <?php endforeach; ?>
+                        </table>
+                        <div class="card-body d-flex justify-content-center">
+                          <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                              <li class="page-item <?= $pageActive == 1 ? 'disabled' : '' ?>">
+                                <a class="page-link" href="?page=<?= $prev ?>&keyword=<?= $key ?>">Previous</a>
                               </li>
-                            <?php endfor; ?>
-                            <li class="page-item <?= $pageActive == $countPage ? 'disabled' : '' ?>">
-                              <a class="page-link" href="?page=<?= $next ?>&keyword=<?= $key ?>">Next</a>
-                            </li>
-                          </ul>
-                        </nav>
-                      </div>
+                              <?php for ($i = 1; $i <= $countPage; $i++) : ?>
+                                <li class="page-item <?= $pageActive == $i ? 'active' : '' ?>">
+                                  <a class="page-link" href="?page=<?= $i ?>&keyword=<?= $key ?>"><?= $i ?></a>
+                                </li>
+                              <?php endfor; ?>
+                              <li class="page-item <?= $pageActive == $countPage ? 'disabled' : '' ?>">
+                                <a class="page-link" href="?page=<?= $next ?>&keyword=<?= $key ?>">Next</a>
+                              </li>
+                            </ul>
+                          </nav>
+                        </div>
+                      <?php endif; ?>
                     </div>
                   </div>
                 </div>

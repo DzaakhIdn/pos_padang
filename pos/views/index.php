@@ -1,3 +1,10 @@
+<?php
+require_once __DIR__ . '/../Model/init.php';
+
+$cs = new Category();
+$ms = new Item();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,16 +73,16 @@
                   </div>
                   <div class="card-stats-items">
                     <div class="card-stats-item">
-                      <div class="card-stats-item-count">24</div>
-                      <div class="card-stats-item-label">Pending</div>
+                      <div class="card-stats-item-count"><?= count($cs->all()) ?></div>
+                      <div class="card-stats-item-label">Category</div>
                     </div>
                     <div class="card-stats-item">
-                      <div class="card-stats-item-count">12</div>
-                      <div class="card-stats-item-label">Shipping</div>
+                      <div class="card-stats-item-count"><?= count($ms->all()) ?></div>
+                      <div class="card-stats-item-label">Menu</div>
                     </div>
                     <div class="card-stats-item">
                       <div class="card-stats-item-count">23</div>
-                      <div class="card-stats-item-label">Completed</div>
+                      <div class="card-stats-item-label">Karyawan</div>
                     </div>
                   </div>
                 </div>

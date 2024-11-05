@@ -14,6 +14,9 @@ if(isset($_POST["submit"])){
   ];
 
   $result = $menu->create($datas);
+  if(gettype($result) == "String"){
+    echo "<script> alert('{$result}') window.location.href = 'create-menu.php'";
+  }
 }
 ?>
 
@@ -36,6 +39,7 @@ if(isset($_POST["submit"])){
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <!-- Start GA -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -68,7 +72,9 @@ if(isset($_POST["submit"])){
           <div class="section-body">
             <div class="row">
               <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center">
-                <img src="../assets/img/svg/mie.png" alt="" width="450">
+                <div class="card">
+                <img src="../assets/img/vector/mie.png" alt="">
+                </div>
               </div>
               <div class="col-12 col-md-6 col-lg-6">
                 <div class="card">

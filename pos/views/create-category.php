@@ -8,21 +8,8 @@ if (isset($_POST["submit"])) {
     "name" => $_POST["name"]
   ];
   if (strlen($_POST["name"]) > 225) {
-?>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script>
-      Swal.fire({
-        title: 'Coba SweetAlert',
-        text: 'Jika ini muncul, SweetAlert berfungsi.',
-        icon: 'info'
-      });
-    </script>
-
-
-<?php
-    die;
+    header("Location: create-category.php?=error");
   }
-  $result = $categories->create($category);
 }
 
 
@@ -41,6 +28,7 @@ if (isset($_POST["submit"])) {
   <link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
 
   <!-- CSS Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -119,14 +107,36 @@ if (isset($_POST["submit"])) {
   <!-- JS Libraies -->
 
   <!-- Page Specific JS File -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Template JS File -->
   <script src="../assets/js/scripts.js"></script>
   <script src="../assets/js/custom.js"></script>
-  <script type="text/javascript">
-
-  </script>
+  <?php
+  if (isset($_GET['status'])) {
+    if ($_GET['status'] == 'success') {
+      echo "
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Data berhasil ditambahkan!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>";
+    } elseif ($_GET['status'] == 'error') {
+      echo "
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat menambahkan data.',
+                showConfirmButton: true
+            });
+        </script>";
+    }
+  }
+  ?>
 </body>
 
 </html>

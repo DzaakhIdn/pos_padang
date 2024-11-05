@@ -37,6 +37,7 @@ $menus = $menu->paginate($offset, $limit);
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <!-- Start GA -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -87,7 +88,10 @@ $menus = $menu->paginate($offset, $limit);
                     <div class="table-responsive">
                       <?php if (empty($menus)) : ?>
                         <div class="d-flex justify-content-center m-5">
-                          <div class="inpo btn btn-danger ">Gak Ada Data 🥲</div>
+                          <div class="pesan">
+                          <img src="../assets/img/icon/no-data.gif" alt="" width="100">
+                          <p>Tidak Ada Data</p>
+                          </div>
                         </div>
                       <?php else: ?>
                         <table class="table table-striped">
@@ -114,10 +118,10 @@ $menus = $menu->paginate($offset, $limit);
                                 </div>
                               </td>
                               <td><?= $m["name"] ?></td>
-                              <td>Attachment</td>
-                              <td>20.000</td>
-                              <td>Makanan</td>
-                              <td> <?= date('Y') ?></td>
+                              <td><img src="../public/img/items/<?= $m["attachment"] ?>" alt="" width="50"></td>
+                              <td><?= $m["price"] ?></td>
+                              <td><?= $m["category_id"] ?></td>
+                              <td> <?= $m["created_at"] ?></td>
                               <td>
                                 <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>
                                 <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
