@@ -16,7 +16,7 @@ $prev = ($pageActive > 1) ? $pageActive - 1 : 1;
 $next = ($pageActive < $countPage) ? $pageActive + 1 : $countPage;
 
 // Query dengan pagination
-$menus = $menu->paginate($offset, $limit);
+$menus = $menu->all2($offset, $limit);
 ?>
 
 <!DOCTYPE html>
@@ -120,7 +120,7 @@ $menus = $menu->paginate($offset, $limit);
                               <td><?= $m["name"] ?></td>
                               <td><img src="../public/img/items/<?= $m["attachment"] ?>" alt="" width="50"></td>
                               <td><?= $m["price"] ?></td>
-                              <td><?= $m["category_id"] ?></td>
+                              <td><?= $m["category_name"] ?></td>
                               <td> <?= $m["created_at"] ?></td>
                               <td>
                                 <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>

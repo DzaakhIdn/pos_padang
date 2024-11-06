@@ -1,3 +1,12 @@
+<?php
+require_once __DIR__ . '/../Model/init.php';
+
+$users = new User();
+
+$user = $users->all();
+//var_dump($user);
+?>
+
 <div class="row">
     <div class="col-12 col-md-6 col-lg-6">
         <div class="card">
@@ -12,7 +21,7 @@
             <div class="card-body">
             <div class="card profile-widget">
                   <div class="profile-widget-header">                     
-                    <img alt="image" src="../assets/img/avatar/avatar-3.png" class="rounded-circle profile-widget-picture">
+                    <img alt="image" src="../public/img/users/<?= $user[0]["avatar"] ?>" class="rounded-circle profile-widget-picture">
                     <div class="profile-widget-items">
                       <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Bergabung Sejak</div>
@@ -27,11 +36,11 @@
                 </div>
                 <div class="form-group">
                     <label>Nama</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" value="<?= $user[0]["name"] ?>">
                 </div>
                 <div class="form-group">
                     <label>email</label>
-                    <input type="email" class="form-control">
+                    <input type="email" class="form-control" value="<?= $user[0]["email"] ?>">
                 </div>
                 <div class="form-group">
                     <label>Gender</label>

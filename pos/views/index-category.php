@@ -86,9 +86,9 @@ $categories = $kategori->paginate($offset, $limit);
                           <?php foreach ($categories as $category) : ?>
                             <tr>
                               <td>1</td>
-                              <td> <?= htmlspecialchars($category['name']) ?></td>
+                              <td> <?= htmlspecialchars($category['category_name']) ?></td>
                               <td>
-                                <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-primary" id="swal-1"><i class="fas fa-eye"></i></a>
                                 <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                                 <a href="#" class="btn btn-success"><i class="fas fa-edit"></i></a>
                               </td>
@@ -133,6 +133,13 @@ $categories = $kategori->paginate($offset, $limit);
   <script src="../assets/js/stisla.js"></script>
   <script src="../assets/js/scripts.js"></script>
   <script src="../assets/js/custom.js"></script>
+  
+  <!-- JS Libraies -->
+  <script src="../assets/modules/sweetalert/sweetalert.min.js"></script>
+
+  <!-- Page Specific JS File -->
+  <script src="../assets/js/page/modules-sweetalert.js"></script>
+  
 
   <script type="text/javascript">
     var keyword = $("#keyword")

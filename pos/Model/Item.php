@@ -66,4 +66,12 @@ class Item extends Model
     public function paginate($start, $limit){
       return parent::paginate_data($start, $limit, $this->table);
     }
+
+    public function all2($start, $limit){
+        $query = "SELECT * FROM items INNER JOIN categories ON items.category_id = categories.id LIMIT $start, $limit;";
+
+        $result = mysqli_query($this->db, $query);
+        return $this->convert_data($result);
+
+    }
 }

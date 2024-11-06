@@ -5,10 +5,13 @@ $categories = new Category;
 
 if (isset($_POST["submit"])) {
   $category = [
-    "name" => $_POST["name"]
+    "category_name" => $_POST["category_name"]
   ];
-  if (strlen($_POST["name"]) > 225) {
+  $categories->create($category);
+  if (strlen($_POST["category_name"]) > 225) {
     header("Location: create-category.php?=error");
+  } else {
+    header("Location: create-category.php?=success");
   }
 }
 
@@ -78,7 +81,7 @@ if (isset($_POST["submit"])) {
                   <form action="" method="post" class="card-body">
                     <div class="form-group">
                       <label>Masukan Kategori Baru</label>
-                      <input type="text" name="name" class="form-control">
+                      <input type="text" name="category_name" class="form-control">
                     </div>
                     <div class="d-flex justify-content-end">
                       <button class="btn btn-primary" type="submit" name="submit">Tambahkan</button>
