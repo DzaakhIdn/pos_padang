@@ -1,10 +1,16 @@
 <?php
+session_start();
 require_once __DIR__ . '/../Model/init.php';
+
+if(!isset($_SESSION["name"])){
+  echo "<script>alert('kamu belum login');
+   window.location.href = 'auth-login.php' </script>";
+}
 
 $cs = new Category();
 $ms = new Item();
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

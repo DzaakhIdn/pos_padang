@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../Model/init.php';
 
 $user = new User();
+
 if (isset($_POST["submit"])) {
   $result = $user->login($_POST["email"], $_POST["password"]);
   if (gettype($result) == "string") {

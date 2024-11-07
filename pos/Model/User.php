@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/Model.php';
 
 class User extends Model
@@ -111,5 +112,9 @@ class User extends Model
             return "Password salah";
         }
 
+    }
+
+    public function logout(){
+        session_destroy();
     }
 }

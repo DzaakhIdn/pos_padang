@@ -32,6 +32,7 @@ $categories = $kategori->paginate($offset, $limit);
   <link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
 
   <!-- CSS Libraries -->
+  <link rel="stylesheet" href="../assets/modules/prism/prism.css">
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -88,7 +89,7 @@ $categories = $kategori->paginate($offset, $limit);
                               <td>1</td>
                               <td> <?= htmlspecialchars($category['category_name']) ?></td>
                               <td>
-                                <a href="#" class="btn btn-primary" id="swal-1"><i class="fas fa-eye"></i></a>
+                                <button class="btn btn-primary" onclick="modalDetail(<?= $category['id'] ?>, '<?= $category['category_name'] ?>')"><i class="fas fa-eye"></i></button>
                                 <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                                 <a href="#" class="btn btn-success"><i class="fas fa-edit"></i></a>
                               </td>
@@ -123,6 +124,24 @@ $categories = $kategori->paginate($offset, $limit);
       </div>
       <?php include('../component/footer.php') ?>
     </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="detailModal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Detail Kategori</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+              </div>
+              <div class="modal-footer bg-whitesmoke br">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
   </div>
 
   <script src="../assets/modules/jquery.min.js"></script>
@@ -133,13 +152,14 @@ $categories = $kategori->paginate($offset, $limit);
   <script src="../assets/js/stisla.js"></script>
   <script src="../assets/js/scripts.js"></script>
   <script src="../assets/js/custom.js"></script>
-  
+
   <!-- JS Libraies -->
-  <script src="../assets/modules/sweetalert/sweetalert.min.js"></script>
+  <script src="../assets/modules/prism/prism.js"></script>
 
   <!-- Page Specific JS File -->
   <script src="../assets/js/page/modules-sweetalert.js"></script>
-  
+  <script src="../assets/js/page/bootstrap-modal.js"></script>
+
 
   <script type="text/javascript">
     var keyword = $("#keyword")
@@ -148,7 +168,18 @@ $categories = $kategori->paginate($offset, $limit);
     keyword.on("keyup", () => {
       //console.log(keyword.val())
       container.load("../search/search-category.php?keyword=" + keyword.val())
-    })
+    });
+
+    function modalDetail(id, name) {
+      $('#detailModal .modal').empty();
+      let content = '<ul>';
+      content += `<li><strong> Id Kategori: </strong>${id}</li>`;
+      content += `<li><strong> Name Kategori: </strong>${name}</li>`;
+      content += `</ul>`;
+
+      $('#detailModal .modal-body').html(content);
+      $('#detailModal').modal('show');
+    }
   </script>
 </body>
 

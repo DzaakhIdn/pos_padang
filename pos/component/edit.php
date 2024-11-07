@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if(isset($_SESSION["name"])){
+    $name = $_SESSION["name"];
+    $email = $_SESSION["email"];
+}
+?>
 <div class="row">
     <div class="col-12 col-md-6 col-lg-6">
         <div class="card">
@@ -10,9 +18,9 @@
                 <h4>Edit Profile</h4>
             </div>
             <div class="card-body">
-                <input type="file" id="avatar" hidden>
                 <div class="card profile-widget">
-                    <div class="profile-widget-header">
+                    <input type="file" id="avatar" hidden>                    
+                    <label for="avatar" class="profile-widget-header">
                         <img alt="image" src="../assets/img/avatar/avatar-3.png" class="rounded-circle profile-widget-picture">
                         <div class="profile-widget-items">
                             <div class="profile-widget-item">
@@ -24,15 +32,15 @@
                                 <div class="profile-widget-item-value">$6,8K</div>
                             </div>
                         </div>
-                    </div>
+                    </label>
                 </div>
                 <div class="form-group">
                     <label>Nama</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" value="<?= $name ?>">
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control">
+                    <input type="email" class="form-control" value="<?= $email ?>">
                 </div>
                 <div class="form-group">
                     <label>Gender</label>

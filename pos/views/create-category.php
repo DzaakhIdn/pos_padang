@@ -54,6 +54,7 @@ if (isset($_POST["submit"])) {
 <body>
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
+
       <!-- Navbar -->
       <?php include('../component/navbar.php') ?>
       <!-- SideBar -->

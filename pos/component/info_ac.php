@@ -1,9 +1,14 @@
 <?php
+session_start();
 require_once __DIR__ . '/../Model/init.php';
 
 $users = new User();
 
-$user = $users->all();
+if(isset($_SESSION["name"])){
+    $name = $_SESSION["name"];
+    $email = $_SESSION["email"];
+    $avatar = $_SESSION["avatar"];
+}
 //var_dump($user);
 ?>
 
@@ -21,7 +26,7 @@ $user = $users->all();
             <div class="card-body">
             <div class="card profile-widget">
                   <div class="profile-widget-header">                     
-                    <img alt="image" src="../public/img/users/<?= $user[0]["avatar"] ?>" class="rounded-circle profile-widget-picture">
+                    <img alt="image" src="../public/img/users/<?= $avatar ?>" class="rounded-circle profile-widget-picture">
                     <div class="profile-widget-items">
                       <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Bergabung Sejak</div>
@@ -36,11 +41,11 @@ $user = $users->all();
                 </div>
                 <div class="form-group">
                     <label>Nama</label>
-                    <input type="text" class="form-control" value="<?= $user[0]["name"] ?>">
+                    <input type="text" class="form-control" value="<?= $name ?>">
                 </div>
                 <div class="form-group">
                     <label>email</label>
-                    <input type="email" class="form-control" value="<?= $user[0]["email"] ?>">
+                    <input type="email" class="form-control" value="<?= $email ?>">
                 </div>
                 <div class="form-group">
                     <label>Gender</label>

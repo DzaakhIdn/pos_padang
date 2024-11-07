@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../Model/init.php';
-session_start();
 
 $user = new User();
 if (isset($_POST["submit"])) {
