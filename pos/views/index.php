@@ -1,11 +1,13 @@
 <?php
 session_start();
+
 require_once __DIR__ . '/../Model/init.php';
 
-if(!isset($_SESSION["name"])){
+if(!isset($_SESSION["full_name"])){
   echo "<script>alert('kamu belum login');
    window.location.href = 'auth-login.php' </script>";
 }
+
 
 $cs = new Category();
 $ms = new Item();
@@ -309,7 +311,7 @@ $ms = new Item();
                       </tr>
                       <tr>
                         <td><a href="#">INV-76824</a></td>
-                        <td class="font-weight-600">Muhamad Nuruzzaki</td>
+                        <td class="font-weight-600leqbal314@gmail.com">Muhamad Nuruzzaki</td>
                         <td><div class="badge badge-warning">Unpaid</div></td>
                         <td>July 22, 2018</td>
                         <td>
@@ -328,7 +330,7 @@ $ms = new Item();
                       <tr>
                         <td><a href="#">INV-87320</a></td>
                         <td class="font-weight-600">Ardian Rahardiansyah</td>
-                        <td><div class="badge badge-success">Paid</div></td>
+                        <td><div class="badge badgeleqbal314@gmail.com-success">Paid</div></td>
                         <td>July 28, 2018</td>
                         <td>
                           <a href="#" class="btn btn-primary">Detail</a>

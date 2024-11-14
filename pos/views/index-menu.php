@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../DB/Connections.php';
 require_once __DIR__ . '/../Model/init.php';
 
@@ -17,6 +18,7 @@ $next = ($pageActive < $countPage) ? $pageActive + 1 : $countPage;
 
 // Query dengan pagination
 $menus = $menu->all2($offset, $limit);
+
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +34,7 @@ $menus = $menu->all2($offset, $limit);
   <link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
 
   <!-- CSS Libraries -->
+  <link rel="stylesheet" href="../assets/modules/prism/prism.css">
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -89,8 +92,8 @@ $menus = $menu->all2($offset, $limit);
                       <?php if (empty($menus)) : ?>
                         <div class="d-flex justify-content-center m-5">
                           <div class="pesan">
-                          <img src="../assets/img/icon/no-data.gif" alt="" width="100">
-                          <p>Tidak Ada Data</p>
+                            <img src="../assets/img/icon/no-data.gif" alt="" width="100">
+                            <p>Tidak Ada Data</p>
                           </div>
                         </div>
                       <?php else: ?>
@@ -117,15 +120,15 @@ $menus = $menu->all2($offset, $limit);
                                   <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
                                 </div>
                               </td>
-                              <td><?= $m["name"] ?></td>
-                              <td><img src="../public/img/items/<?= $m["attachment"] ?>" alt="" width="50"></td>
+                              <td><?= $m["name_item"] ?></td>
+                              <td><img src="../public/img/items/<?= $m["attachment"] ?>" alt="" width="60" class="img-thumbnail rounded shadow-sm"></td>
                               <td><?= $m["price"] ?></td>
-                              <td><?= $m["category_name"] ?></td>
-                              <td> <?= $m["created_at"] ?></td>
+                              <td><?= $m["name_category"] ?></td>
+                              <td> <?= $m["created_at_item"] ?></td>
                               <td>
-                                <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                <a href="#" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                                <button class="btn btn-primary" onclick="modalDetail(<?= $m['id_item'] ?>, '<?= $m['name_item'] ?>', '<?= $m['attachment'] ?>', '<?= $m['price'] ?>', '<?= $m['name_category'] ?>', '<?= $m['created_at_item'] ?>')"><i class="fas fa-eye"></i></button>
+                                <a href="../services/delete-menu.php?id=<?= $m["id_item"] ?>" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                <a href="../services/edit-menu.php?id=<?= $m["id_item"] ?>" class="btn btn-success"><i class="fas fa-edit"></i></a>
                               </td>
                             </tr>
                           <?php endforeach; ?>
@@ -159,25 +162,47 @@ $menus = $menu->all2($offset, $limit);
     </div>
     <!-- Footer -->
     <?php include('../component/footer.php') ?>
+
   </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="detailModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detail Menu</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer bg-whitesmoke br">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
+
+
+  
+
 
   <!-- General JS Scripts -->
   <script src="../assets/modules/jquery.min.js"></script>
   <script src="../assets/modules/popper.js"></script>
-  <script src="../assets/modules/tooltip.js"></script>
   <script src="../assets/modules/bootstrap/js/bootstrap.min.js"></script>
   <script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
   <script src="../assets/modules/moment.min.js"></script>
   <script src="../assets/js/stisla.js"></script>
-
-  <!-- JS Libraies -->
-
-  <!-- Page Specific JS File -->
-
-  <!-- Template JS File -->
   <script src="../assets/js/scripts.js"></script>
   <script src="../assets/js/custom.js"></script>
+
+  <!-- JS Libraies -->
+  <script src="../assets/modules/prism/prism.js"></script>
+
+  <!-- Page Specific JS File -->
+  <script src="../assets/js/page/modules-sweetalert.js"></script>
+  <script src="../assets/js/page/bootstrap-modal.js"></script>
   <script type="text/javascript">
     var keyword = $("#keyword")
     var container = $("#bungkus")
@@ -186,6 +211,28 @@ $menus = $menu->all2($offset, $limit);
       //console.log(keyword.val())
       container.load("../search/search-menu.php?keyword=" + keyword.val())
     })
+
+    function modalDetail(id_item, name_item, attachment, price, category_id, created_at_item) {
+        let content = '<ul class="list-unstyled">';
+        content += `<li class="mb-3"><strong>Id Menu: </strong>${id_item}</li>`;
+        content += `<li class="mb-3"><strong>Name Menu: </strong>${name_item}</li>`;
+        content += `<li class="mb-3">
+            <strong>Gambar: </strong><br>
+            <div class="mt-2">
+                <img src="../public/img/items/${attachment}" 
+                    alt="${name_item}" 
+                    class="img-thumbnail rounded shadow-sm" 
+                    style="max-width: 150px; height: auto;">
+            </div>
+        </li>`;
+        content += `<li class="mb-3"><strong>Harga: </strong>${price}</li>`;
+        content += `<li class="mb-3"><strong>Category: </strong>${category_id}</li>`;
+        content += `<li class="mb-3"><strong>Di Buat pada: </strong>${created_at_item}</li>`;
+        content += '</ul>';
+
+        $('#detailModal .modal-body').html(content);
+        $('#detailModal').modal('show');
+    }
   </script>
 </body>
 

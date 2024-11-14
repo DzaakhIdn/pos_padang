@@ -68,8 +68,8 @@ if (isset($_POST["submit"])) {
               <div class="card-body">
                 <form method="post" action="#" enctype="multipart/form-data">
                   <div class="form-group">
-                    <label for="name">Username</label>
-                    <input id="name" type="text" class="form-control" name="name" tabindex="1" required autofocus>
+                    <label for="full_name">Username</label>
+                    <input id="full_name" type="text" class="form-control" name="full_name" tabindex="1" required autofocus>
                     <div class="invalid-feedback">
                       Please fill in your email
                     </div>

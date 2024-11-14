@@ -1,14 +1,15 @@
 <?php
+session_start();
 require_once __DIR__ . '/../Model/init.php';
 
 $categories = new Category;
 
 if (isset($_POST["submit"])) {
   $category = [
-    "category_name" => $_POST["category_name"]
+    "name_category" => $_POST["name_category"]
   ];
   $categories->create($category);
-  if (strlen($_POST["category_name"]) > 225) {
+  if (strlen($_POST["name_category"]) > 225) {
     header("Location: create-category.php?=error");
   } else {
     header("Location: create-category.php?=success");
@@ -82,7 +83,7 @@ if (isset($_POST["submit"])) {
                   <form action="" method="post" class="card-body">
                     <div class="form-group">
                       <label>Masukan Kategori Baru</label>
-                      <input type="text" name="category_name" class="form-control">
+                      <input type="text" name="name_category" class="form-control">
                     </div>
                     <div class="d-flex justify-content-end">
                       <button class="btn btn-primary" type="submit" name="submit">Tambahkan</button>

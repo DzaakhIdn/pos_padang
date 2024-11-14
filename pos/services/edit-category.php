@@ -1,23 +1,24 @@
 <?php
-session_start();
-require_once __DIR__ . '/../DB/Connections.php';
 require_once __DIR__ . '/../Model/init.php';
 
-$categori = new Category();
-$menu = new Item();
+$categories = new Category;
 
-$categories = $categori->all();
+$id = $_GET["id"];
+$category = $categories->find($id);
 
-if(isset($_POST["submit"])){
-  $datas = [
-    "post" => $_POST,
-    "files" => $_FILES
+if (isset($_POST["submit"])) {
+  $category = [
+    "category_name" => $_POST["category_name"]
   ];
-  $result = $menu->create($datas);
-  if(gettype($result) == "String"){
-    echo "<script> alert('{$result}') window.location.href = 'create-menu.php'";
+  $categories->update($category, $id);
+  if (strlen($_POST["category_name"]) > 225) {
+    header("Location: create-category.php?=error");
+  } else {
+    header("Location: create-category.php?=success");
   }
 }
+
+ 
 ?>
 
 <!DOCTYPE html>
@@ -31,15 +32,14 @@ if(isset($_POST["submit"])){
   <!-- General CSS Files -->
   <link rel="stylesheet" href="../assets/modules/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../assets/modules/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="../assets/modules/jquery-selectric/selectric.css">
 
   <!-- CSS Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <!-- Start GA -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -57,6 +57,7 @@ if(isset($_POST["submit"])){
 <body>
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
+
       <!-- Navbar -->
       <?php include('../component/navbar.php') ?>
       <!-- SideBar -->
@@ -66,50 +67,28 @@ if(isset($_POST["submit"])){
       <div class="main-content">
         <section class="section">
           <div class="section-header">
-            <h1>Tambah Menu</h1>
+            <h1>Tambah Kategori</h1>
           </div>
 
           <div class="section-body">
             <div class="row">
-              <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center">
+              <div class="col-12 col-md-6 col-lg-6">
                 <div class="card">
-                <img src="../assets/img/vector/mie.png" alt="">
+                  <img src="../assets/img/vector/Fastfood.png" alt="">
                 </div>
               </div>
               <div class="col-12 col-md-6 col-lg-6">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Tambahkan Menu Baru</h4>
+                    <h4>Input Text</h4>
                   </div>
-                  <form action="" method="post" enctype="multipart/form-data" class="card-body">
+                  <form action="" method="post" class="card-body">
                     <div class="form-group">
-                      <label for="name">Nama Menu</label>
-                      <input type="text" name="name_item" id="name" class="form-control">
-                    </div>
-                    <div class="form-group">
-                      <label class="form-control-label" for="attachment">Attachment</label>
-                      <div class="">
-                        <div class="custom-file">
-                          <input type="file" name="attachment" class="custom-file-input" id="attachment">
-                          <label class="custom-file-label">Choose File</label>
-                        </div>
-                        <div class="form-text text-muted">The image must have a maximum size of 1MB</div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="category_id">Categories</label>
-                      <select class="form-control selectric" name="category_id" id="category_id">
-                      <?php foreach ($categories as $c) : ?>
-                        <option value="<?= $c["id_category"] ?>"><?= $c["name_category"] ?></option>
-                      <?php endforeach; ?>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="price">Harga</label>
-                      <input type="number" name="price" id="price" class="form-control">
+                      <label>Masukan Kategori Baru</label>
+                      <input type="text" name="category_name" class="form-control" value="<?= $category[0]['category_name'] ?>">
                     </div>
                     <div class="d-flex justify-content-end">
-                      <button class="btn btn-primary" name="submit" type="submit">Tambahkan</button>
+                      <button class="btn btn-primary" type="submit" name="submit">Tambahkan</button>
                     </div>
                   </form>
                 </div>
@@ -131,7 +110,6 @@ if(isset($_POST["submit"])){
   <script src="../assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
   <script src="../assets/modules/moment.min.js"></script>
   <script src="../assets/js/stisla.js"></script>
-  <script src="../assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
 
   <!-- JS Libraies -->
 
@@ -140,6 +118,32 @@ if(isset($_POST["submit"])){
   <!-- Template JS File -->
   <script src="../assets/js/scripts.js"></script>
   <script src="../assets/js/custom.js"></script>
+  <?php
+  if (isset($_GET['status'])) {
+    if ($_GET['status'] == 'success') {
+      echo "
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Data berhasil ditambahkan!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>";
+    } elseif ($_GET['status'] == 'error') {
+      echo "
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Terjadi kesalahan saat menambahkan data.',
+                showConfirmButton: true
+            });
+        </script>";
+    }
+  }
+  ?>
 </body>
 
 </html>

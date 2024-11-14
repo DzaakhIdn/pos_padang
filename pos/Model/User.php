@@ -4,7 +4,8 @@ require_once __DIR__ . '/Model.php';
 
 class User extends Model
 {
-    protected $table = 'user';
+    protected $table = 'users';
+    protected $primary_key = 'id_user';
 
     public function create($datas)
     {
@@ -16,20 +17,20 @@ class User extends Model
     }
     public function find($id)
     {
-        return parent::find_data($id, $this->table);
+        return parent::find_data($id, $this->table, $this->primary_key);
     }
     public function update($id, $datas)
     {
-        return parent::update_data($id, $datas, $this->table);
+        return parent::update_data($id, $datas, $this->table, $this->primary_key);
     }
     public function delete($id)
     {
-        return parent::delete_data($id, $this->table);
+        return parent::delete_data($id, $this->table, $this->primary_key);
     }
     public function register($datas){
 
         $email = $datas["post"]["email"];
-        $name = $datas["post"]["name"];
+        $name = $datas["post"]["full_name"];
         $password = $datas["post"]["password"];
         $gender = $datas["post"]["gender"];
 
@@ -66,19 +67,19 @@ class User extends Model
         }
         
         $pass = base64_encode($password);
-        $query_register = "INSERT INTO {$this->table} (name, avatar, gender, email, password) VALUES ('$name', '$nama_file', '$gender', '$email', '$pass')";
+        $query_register = "INSERT INTO {$this->table} (full_name, avatar, gender, email, password) VALUES ('$name', '$nama_file', '$gender', '$email', '$pass')";
 
         $result = mysqli_query($this->db, $query_register);
 
         if(!$result){
             return "Register gagal";
         } else {
-            $_SESSION['name'] = $name;
+            $_SESSION['full_name'] = $name;
             $_SESSION['email'] = $email;
             $_SESSION['avatar'] = $nama_file;
     
             $detail_user = [
-                'name' => $name,
+                'full_name' => $name,
                 'email' => $email,
                 'avatar' => $nama_file,
             ];
@@ -97,12 +98,12 @@ class User extends Model
 
         $user = mysqli_fetch_assoc($result);
         if(base64_decode($user['password'], false) === $pass){
-            $_SESSION["name"] = $user["name"];
-            $_SESSION["email"] = $user["email"];
-            $_SESSION["avatar"] = $user["avatar"];
+            $_SESSION['full_name'] = $user['full_name'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['avatar'] = $user['avatar'];
     
             $detail_user = [
-                'name' => $user['name'],
+                'full_name' => $user['full_name'],
                 'email' => $email,
                 'avatar' => $user['avatar']
             ];

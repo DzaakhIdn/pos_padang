@@ -1,6 +1,6 @@
 <?php
-if(isset($_SESSION["name"])){
-    $name = $_SESSION["name"];
+if(isset($_SESSION["full_name"])){
+    $name = $_SESSION["full_name"];
     $avatar = $_SESSION["avatar"];
 }
 

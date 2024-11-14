@@ -1,6 +1,4 @@
 <?php
-
-
 require_once __DIR__ . '/../Interface/Interface.php';
 require_once __DIR__ . '/../DB/Connections.php';
 
@@ -39,8 +37,8 @@ abstract class Model extends Connection implements ModelInterface{
         return $data;
     }
 
-    public function find_data($id, $table){
-        $query = "SELECT * FROM $table WHERE id = $id";
+    public function find_data($id, $table, $column){
+        $query = "SELECT * FROM $table WHERE {$column} = $id";
         $result = mysqli_query($this->db, $query);
         $data = $this->convert_data($result);
         if($result->num_rows > 0){
@@ -50,7 +48,7 @@ abstract class Model extends Connection implements ModelInterface{
         }
     }
 
-    public function update_data($id, $datas, $table){
+    public function update_data($id, $datas, $table, $column){
         $key = array_keys($datas);
         $val = array_values($datas);
 
@@ -63,7 +61,7 @@ abstract class Model extends Connection implements ModelInterface{
             }
         }
 
-        $query .= " WHERE id = $id";
+        $query .= " WHERE {$column} = $id";
         $result = mysqli_query($this->db, $query);
         if($result){
             return $datas;
@@ -72,8 +70,8 @@ abstract class Model extends Connection implements ModelInterface{
         }
     }
 
-    public function delete_data($id, $table){
-        $query = "DELETE FROM $table WHERE id = $id";
+    public function delete_data($id, $table, $column){
+        $query = "DELETE FROM $table WHERE {$column} = $id";
         $result = mysqli_query($this->db, $query);
         return $result;
     }

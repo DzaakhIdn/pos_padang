@@ -4,18 +4,29 @@ require_once __DIR__ . '/../DB/Connections.php';
 require_once __DIR__ . '/../Model/init.php';
 
 $categori = new Category();
-$menu = new Item();
+$menus = new Item();
 
 $categories = $categori->all();
+
+$id = $_GET["id"];
+$menu = $menus->find($id);
 
 if(isset($_POST["submit"])){
   $datas = [
     "post" => $_POST,
     "files" => $_FILES
   ];
-  $result = $menu->create($datas);
-  if(gettype($result) == "String"){
-    echo "<script> alert('{$result}') window.location.href = 'create-menu.php'";
+  $result = $menus->update($id, $datas);
+  if(gettype($result) == "string"){
+    echo "<script>
+      alert('{$result}');
+      window.location.href = 'create-menu.php';
+    </script>";
+  } else if($result) {
+    echo "<script>
+      alert('Menu berhasil diupdate!');
+      window.location.href = 'list-menu.php';
+    </script>";
   }
 }
 ?>
@@ -84,13 +95,13 @@ if(isset($_POST["submit"])){
                   <form action="" method="post" enctype="multipart/form-data" class="card-body">
                     <div class="form-group">
                       <label for="name">Nama Menu</label>
-                      <input type="text" name="name_item" id="name" class="form-control">
+                      <input type="text" name="name_item" id="name" class="form-control" value="<?= $menu[0]["name_item"] ?>">
                     </div>
                     <div class="form-group">
                       <label class="form-control-label" for="attachment">Attachment</label>
                       <div class="">
                         <div class="custom-file">
-                          <input type="file" name="attachment" class="custom-file-input" id="attachment">
+                          <input type="file" name="attachment" class="custom-file-input" id="attachment" value="<?= $menu[0]["attachment"] ?>">
                           <label class="custom-file-label">Choose File</label>
                         </div>
                         <div class="form-text text-muted">The image must have a maximum size of 1MB</div>
@@ -100,13 +111,13 @@ if(isset($_POST["submit"])){
                       <label for="category_id">Categories</label>
                       <select class="form-control selectric" name="category_id" id="category_id">
                       <?php foreach ($categories as $c) : ?>
-                        <option value="<?= $c["id_category"] ?>"><?= $c["name_category"] ?></option>
+                        <option value="<?= $c["id_category"] ?>" <?= $c["id_category"] == $menu[0]["category_id"] ? "selected" : "" ?> ><?= $c["name_category"] ?></option>
                       <?php endforeach; ?>
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="price">Harga</label>
-                      <input type="number" name="price" id="price" class="form-control">
+                      <input type="number" name="price" id="price" class="form-control" value="<?= $menu[0]["price"] ?>">
                     </div>
                     <div class="d-flex justify-content-end">
                       <button class="btn btn-primary" name="submit" type="submit">Tambahkan</button>

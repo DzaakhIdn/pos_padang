@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../DB/Connections.php';
 require_once __DIR__ . '/../Model/init.php';
 
@@ -76,7 +77,7 @@ $categories = $kategori->paginate($offset, $limit);
                             <img src="../assets/img/icon/no-data.gif" alt="" width="100">
                             <p>Tidak Ada Data</p>
                           </div>
-                        </div>
+                        </div>kzz
                       <?php else : ?>
                         <table class="table table-striped">
                           <tr>
@@ -87,11 +88,11 @@ $categories = $kategori->paginate($offset, $limit);
                           <?php foreach ($categories as $category) : ?>
                             <tr>
                               <td>1</td>
-                              <td> <?= htmlspecialchars($category['category_name']) ?></td>
+                              <td> <?= htmlspecialchars($category['name_category']) ?></td>
                               <td>
-                                <button class="btn btn-primary" onclick="modalDetail(<?= $category['id'] ?>, '<?= $category['category_name'] ?>')"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-primary" onclick="modalDetail(<?= $category['id_category'] ?>, '<?= $category['name_category'] ?>')"><i class="fas fa-eye"></i></button>
                                 <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                <a href="#" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                                <a href="./../services/edit-category.php?id=<?= $category['id_category'] ?>" class="btn btn-success"><i class="fas fa-edit"></i></a>
                               </td>
                             </tr>
                           <?php endforeach; ?>

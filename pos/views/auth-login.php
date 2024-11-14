@@ -1,14 +1,21 @@
 <?php
+
 require_once __DIR__ . '/../Model/init.php';
 
 $user = new User();
 
+if(isset($_SESSION["full_name"])){
+  header("Location: index.php");
+}
+
 if (isset($_POST["submit"])) {
   $result = $user->login($_POST["email"], $_POST["password"]);
   if (gettype($result) == "string") {
+    var_dump($result);
     echo "<script>alert('{$result}'); window.location.href = 'auth-login.php';</script>";
   } else {
-    header("Location: index.php");
+    echo "<script>alert('kamu berhasil Login');
+   window.location.href = 'index.php' </script>";
   }
 }
 
@@ -62,7 +69,7 @@ if (isset($_POST["submit"])) {
               </div>
 
               <div class="card-body">
-                <form method="POST" action="#" class="needs-validation" novalidate="">
+                <form method="POST" action="" class="needs-validation" novalidate="">
                   <div class="form-group">
                     <label for="email">Email</label>
                     <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
