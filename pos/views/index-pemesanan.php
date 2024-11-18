@@ -95,8 +95,8 @@ $data = $sales->all2($offset, $limit);
                           <th>Name</th>
                           <th>Note</th>
                           <th>Status</th>
-                          <th>Amount</th>
-                          <th>User</th>
+                           <th>Amount</th>
+                          <th>Nama Kasir</th>
                           <th>Due Date</th>
                           <th>Action</th>
                         </tr>
@@ -196,7 +196,7 @@ $data = $sales->all2($offset, $limit);
         content += `<li class="mb-3"><strong>Catatan : </strong>${note}</li>`;
         content += `<li class="mb-3"><strong>Status : </strong>${status}</li>`;
         content += `<li class="mb-3"><strong>Jumlah : </strong>${amount}</li>`;
-        content += `<li class="mb-3"><strong>Nama Pelayan : </strong>${full_name}</li>`;
+        content += `<li class="mb-3"><strong>Nama Kasir : </strong>${full_name}</li>`;
         content += `<li class="mb-3"><strong>Di Buat pada: </strong>${created_at_sale}</li>`;
         content += '</ul>';
 

@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once __DIR__ . '/../Model/init.php';
+
+$menu = new Item();
+$menus = $menu->all();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +34,16 @@ require_once __DIR__ . '/../Model/init.php';
     gtag('js', new Date());
 
     gtag('config', 'UA-94034622-3');
+
+    const itemSelected = [{}];
+    
+    function addItem(id_item, qty = 1) {
+      itemSelected.push({
+        id: id_item,
+        qty: qty
+      });
+      alert(itemSelected.map(item => item.id));
+    }
   </script>
   <!-- /END GA -->
 </head>
@@ -53,54 +66,29 @@ require_once __DIR__ . '/../Model/init.php';
           <div class="section-body">
             <div class="row">
               <div class="col-12 col-md-6 d-md-flex align-items-center row">
+                <?php foreach ($menus as $item) : ?>
                 <div class="col-6 col-md-6 mb-2 px-1">
-                  <div class="card text-center border-0 position-relative">
-                    <span class="position-absolute top-0 mt-1 ml-1 start-100 translate-middle badge rounded-pill  bg-primary text-white">+1</span>
-                    <img alt="image" src="../assets/img/dummy/image.png" class="img-fluid rounded">
+                  <button class="card text-center border-0 position-relative" onclick="addItem(<?= $item['id_item'] ?>)">
+                    <span class="position-absolute top-0 mt-1 ml-1 start-100 translate-middle badge rounded-pill  bg-primary text-white"><script></script></span>
+                    <img alt="image" src="../public/img/items/<?= $item['attachment'] ?>" class="img-fluid rounded">
                     <div class="card-body p-1">
-                      <h5 class="card-title mb-0">Title 1</h5>
-                      <p class="card-text d-none d-md-block">This is a short description for the image.</p>
+                      <h5 class="card-title mb-0"><?= $item['name_item'] ?></h5>
+                      <p class="card-text d-none d-md-block">Rp. <?= number_format($item['price'], 0, ',', '.') ?></p>
                     </div>
+                    </button>
                   </div>
-                </div>
-                <div class="col-6 col-md-6 mb-2 px-1">
-                  <div class="card text-center border-0 position-relative">
-                    <span class="position-absolute top-0 mt-1 ml-1 start-100 translate-middle badge rounded-pill  bg-primary text-white">+1</span>
-                    <img alt="image" src="../assets/img/dummy/image.png" class="img-fluid rounded">
-                    <div class="card-body p-1">
-                      <h5 class="card-title mb-0">Title 2</h5>
-                      <p class="card-text d-none d-md-block">This is a short description for the image.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 col-md-6 mb-2 px-1">
-                  <div class="card text-center border-0 position-relative">
-                    <span class="position-absolute top-0 mt-1 ml-1 start-100 translate-middle badge rounded-pill  bg-primary text-white">+1</span>
-                    <img alt="image" src="../assets/img/dummy/image.png" class="img-fluid rounded">
-                    <div class="card-body p-1">
-                      <h5 class="card-title mb-0">Title 3</h5>
-                      <p class="card-text d-none d-md-block">This is a short description for the image.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 col-md-6 mb-2 px-1">
-                  <div class="card text-center border-0 position-relative">
-                    <span class="position-absolute top-0 mt-1 ml-1 start-100 translate-middle badge rounded-pill  bg-primary text-white">+1</span>
-                    <img alt="image" src="../assets/img/dummy/image.png" class="img-fluid rounded">
-                    <div class="card-body p-1">
-                      <h5 class="card-title mb-0">Title 4</h5>
-                      <p class="card-text d-none d-md-block">This is a short description for the image.</p>
-                    </div>
-                  </div>
-                </div>
+                <?php endforeach; ?>
               </div>
 
 
 
               <div class="col-12 col-md-6 col-lg-6">
-                <div class="card">
+                <iv class="card">
                   <div class="card-header">
                     <h4>Tambahkan Customer Baru</h4>
+                  </div>
+                  <div class="card-body">
+                    
                   </div>
                   <div class="card-body">
                     <div class="form-group">
@@ -123,7 +111,7 @@ require_once __DIR__ . '/../Model/init.php';
                       <button class="btn btn-primary">Tambahkan</button>
                     </div>
                   </div>
-                </div>
+                </iv>
               </div>
             </div>
           </div>

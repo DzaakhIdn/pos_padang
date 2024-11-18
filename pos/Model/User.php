@@ -118,4 +118,20 @@ class User extends Model
     public function logout(){
         session_destroy();
     }
+
+    function update_password($id, $old_password, $new_password){
+
+        $query = "UPDATE {$this->table} SET password = '$new_password' WHERE id_user = '$id' AND password = '$old_password'";
+        $result = mysqli_query($this->db, $query);
+
+        if(!$result){
+            return "Password gagal diubah";
+        }
+
+        if(mysqli_num_rows($result) && base64_decode($old_password, false) !== $new_password){
+            return "Password lama salah";
+        } else {
+            return "Password berhasil diubah";
+        }
+    }
 }
