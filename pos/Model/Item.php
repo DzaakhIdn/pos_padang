@@ -13,7 +13,7 @@ class Item extends Model
         $file_size = $datas["files"]["attachment"]["size"];
         $tmp_name = $datas["files"]["attachment"]["tmp_name"];
         $file_extension = pathinfo($nama_file, PATHINFO_EXTENSION);
-        $allowed_extension = ["jpg", "jpeg", "gif", "svg", "png", "webp"];
+        $allowed_extension = ["jpg", "jpeg", "gif", "svg", "png", "webp", "avif"];
 
         if(!in_array($file_extension, $allowed_extension)){
             echo "<script> alert('extensi tidak diizinkan!') window.location.href = '../views/create-menu.php'";
